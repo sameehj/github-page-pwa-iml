@@ -6,8 +6,7 @@ var URLS = [
     `${GHPATH}/`,
     `${GHPATH}/index.html`,
     `${GHPATH}/css/styles.css`,
-    // Add paths to any images you'll be using
-    // `${GHPATH}/img/icon.png`
+    `${GHPATH}/logo.png`
 ]
 
 var CACHE_NAME = APP_PREFIX + VERSION;

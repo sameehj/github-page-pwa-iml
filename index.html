@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,25 +9,64 @@
     <link rel="stylesheet" href="/github-page-pwa-iml/css/styles.css">
 </head>
 <body>
+    <div class="language-switcher">
+        <button onclick="changeLanguage('en')" class="lang-btn">English</button>
+        <button onclick="changeLanguage('ar')" class="lang-btn">العربية</button>
+    </div>
+
     <div class="container">
-        <h1>InnerMonkeyLabs Quick Links</h1>
-        <div class="links-grid">
-            <a href="https://innermonkeylabs.com" class="link-card">
-                <h2>Main Website</h2>
-                <p>Visit our main website</p>
-            </a>
-            <a href="https://innermonkeylabs.com/blog" class="link-card">
-                <h2>Blog</h2>
-                <p>Read our latest articles</p>
-            </a>
-            <a href="https://innermonkeylabs.com/contact" class="link-card">
-                <h2>Contact</h2>
-                <p>Get in touch with us</p>
-            </a>
-            <a href="https://innermonkeylabs.com/services" class="link-card">
-                <h2>Services</h2>
-                <p>Explore our services</p>
-            </a>
+        <div class="content-wrapper">
+            <!-- English Content -->
+            <div class="lang-content" data-lang="en">
+                <div class="logo-container">
+                    <img src="/github-page-pwa-iml/logo.png" alt="InnerMonkeyLabs Logo" class="logo">
+                </div>
+                <h1>InnerMonkeyLabs Quick Links</h1>
+                <div class="links-grid">
+                    <a href="https://innermonkeylabs.com" class="link-card">
+                        <h2>Main Website</h2>
+                        <p>Visit our main website</p>
+                    </a>
+                    <a href="https://innermonkeylabs.com/blog" class="link-card">
+                        <h2>Blog</h2>
+                        <p>Read our latest articles</p>
+                    </a>
+                    <a href="https://innermonkeylabs.com/contact" class="link-card">
+                        <h2>Contact</h2>
+                        <p>Get in touch with us</p>
+                    </a>
+                    <a href="https://innermonkeylabs.com/services" class="link-card">
+                        <h2>Services</h2>
+                        <p>Explore our services</p>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Arabic Content -->
+            <div class="lang-content" data-lang="ar" dir="rtl">
+                <div class="logo-container">
+                    <img src="/github-page-pwa-iml/logo.png" alt="InnerMonkeyLabs Logo" class="logo">
+                </div>
+                <h1>روابط InnerMonkeyLabs السريعة</h1>
+                <div class="links-grid">
+                    <a href="https://innermonkeylabs.com" class="link-card">
+                        <h2>الموقع الرئيسي</h2>
+                        <p>زيارة موقعنا الرئيسي</p>
+                    </a>
+                    <a href="https://innermonkeylabs.com/blog" class="link-card">
+                        <h2>المدونة</h2>
+                        <p>اقرأ أحدث مقالاتنا</p>
+                    </a>
+                    <a href="https://innermonkeylabs.com/contact" class="link-card">
+                        <h2>اتصل بنا</h2>
+                        <p>تواصل معنا</p>
+                    </a>
+                    <a href="https://innermonkeylabs.com/services" class="link-card">
+                        <h2>خدماتنا</h2>
+                        <p>استكشف خدماتنا</p>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -38,6 +77,24 @@
                 {scope: '/github-page-pwa-iml/'}
             )
         }
+
+        function changeLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'en' ? 'ltr' : 'rtl';
+            
+            document.querySelectorAll('.lang-content').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            document.querySelector(`[data-lang="${lang}"]`).style.display = 'block';
+            
+            localStorage.setItem('preferred-language', lang);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const storedLang = localStorage.getItem('preferred-language') || 'en';
+            changeLanguage(storedLang);
+        });
     </script>
 </body>
 </html>
