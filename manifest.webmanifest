@@ -1,17 +1,17 @@
 {
-  "name": "Github Page PWA",
-  "short_name": "GPPWA",
-  "description": "Github Page as a Progressive Web App",
-  "scope": "/github-page-pwa/",
-  "start_url": "/github-page-pwa/",
-  "background_color": "#ffffff",
-  "theme_color": "#ffffff",
-  "display": "standalone", 
-  "icons": [
-      {
-        "src": "/github-page-pwa/img/icon.png",
-        "type": "image/png",
-        "sizes": "700x700"
-      }
-  ]
+    "name": "InnerMonkeyLabs Quick Links",
+    "short_name": "IML Links",
+    "description": "Quick access to InnerMonkeyLabs resources",
+    "scope": "/github-page-pwa-iml/",
+    "start_url": "/github-page-pwa-iml/",
+    "background_color": "#fbfbfb",
+    "theme_color": "#2e294e",
+    "display": "standalone",
+    "icons": [
+        {
+            "src": "/github-page-pwa-iml/img/icon.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ]
 }
