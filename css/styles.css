@@ -60,6 +60,40 @@ body {
     max-width: 900px;
 }
 
+.install-banner {
+    margin: 1.5rem auto 0;
+    max-width: 560px;
+    padding: 0.9rem 1rem;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.24);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.install-banner p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.install-btn {
+    border: none;
+    padding: 0.5rem 0.85rem;
+    border-radius: 7px;
+    background: var(--accent);
+    color: var(--primary);
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.hidden {
+    display: none !important;
+}
+
 .logo-container {
     text-align: center;
     margin-bottom: 2rem;
@@ -177,5 +211,10 @@ h1 {
     .lang-btn {
         padding: 0.4rem 0.8rem;
         font-size: 0.9rem;
+    }
+
+    .install-banner {
+        flex-direction: column;
+        align-items: stretch;
     }
 }

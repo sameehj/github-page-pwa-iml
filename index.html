@@ -7,6 +7,11 @@
     <link rel="canonical" href="https://sameehj.github.io/github-page-pwa-iml/" />
     <link rel="manifest" href="/github-page-pwa-iml/manifest.webmanifest">
     <link rel="stylesheet" href="/github-page-pwa-iml/css/styles.css">
+    <meta name="theme-color" content="#2e294e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="InnerMonkeyLabs">
+    <link rel="apple-touch-icon" href="/github-page-pwa-iml/img/apple-touch-icon.png">
 </head>
 <body>
     <div class="language-switcher">
@@ -37,6 +42,10 @@
                     <p data-i18n="contactDesc">Get in touch with us</p>
                 </a>
             </div>
+            <div id="install-banner" class="install-banner hidden" role="status" aria-live="polite">
+                <p id="install-message" data-i18n="installUnavailable"></p>
+                <button id="install-btn" class="install-btn hidden" type="button" data-i18n="installButton">Install App</button>
+            </div>
         </div>
     </div>
 
@@ -59,7 +68,11 @@
                 blogDesc: 'Read our latest articles',
                 contactTitle: '📬 Contact',
                 contactDesc: 'Get in touch with us',
-                toggleLabel: 'العربية'
+                toggleLabel: 'العربية',
+                installButton: 'Install App',
+                installAvailable: 'Install InnerMonkeyLabs for faster access.',
+                installIos: 'To install on iPhone: tap Share, then Add to Home Screen.',
+                installUnavailable: ''
             },
             ar: {
                 title: 'روابط InnerMonkeyLabs السريعة',
@@ -71,9 +84,52 @@
                 blogDesc: 'اقرأ أحدث مقالاتنا',
                 contactTitle: '📬 اتصل بنا',
                 contactDesc: 'تواصل معنا',
-                toggleLabel: 'English'
+                toggleLabel: 'English',
+                installButton: 'تثبيت التطبيق',
+                installAvailable: 'ثبّت تطبيق InnerMonkeyLabs للوصول السريع.',
+                installIos: 'للتثبيت على iPhone: اضغط مشاركة ثم إضافة إلى الشاشة الرئيسية.',
+                installUnavailable: ''
             }
         };
+
+        let deferredInstallPrompt = null;
+        const installBanner = document.getElementById('install-banner');
+        const installMessage = document.getElementById('install-message');
+        const installBtn = document.getElementById('install-btn');
+
+        function isIosDevice() {
+            return /iphone|ipad|ipod/i.test(navigator.userAgent);
+        }
+
+        function isStandaloneMode() {
+            return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+        }
+
+        function currentLanguage() {
+            return document.documentElement.lang || 'en';
+        }
+
+        function setInstallBanner(mode) {
+            if (!mode || isStandaloneMode()) {
+                installBanner.classList.add('hidden');
+                installBtn.classList.add('hidden');
+                return;
+            }
+
+            const lang = currentLanguage();
+            if (mode === 'prompt') {
+                installMessage.textContent = translations[lang].installAvailable;
+                installBtn.classList.remove('hidden');
+                installBanner.classList.remove('hidden');
+                return;
+            }
+
+            if (mode === 'ios') {
+                installMessage.textContent = translations[lang].installIos;
+                installBtn.classList.add('hidden');
+                installBanner.classList.remove('hidden');
+            }
+        }
 
         function changeLanguage(lang) {
             document.documentElement.lang = lang;
@@ -86,6 +142,14 @@
 
             document.getElementById('lang-toggle').textContent = translations[lang].toggleLabel;
             localStorage.setItem('preferred-language', lang);
+
+            if (!installBanner.classList.contains('hidden')) {
+                if (!installBtn.classList.contains('hidden')) {
+                    setInstallBanner('prompt');
+                } else if (isIosDevice() && !isStandaloneMode()) {
+                    setInstallBanner('ios');
+                }
+            }
         }
 
         function toggleLanguage() {
@@ -97,6 +161,32 @@
         document.addEventListener('DOMContentLoaded', () => {
             const storedLang = localStorage.getItem('preferred-language') || 'ar';
             changeLanguage(storedLang);
+
+            if (isIosDevice() && !isStandaloneMode()) {
+                setInstallBanner('ios');
+            }
+        });
+
+        window.addEventListener('beforeinstallprompt', (event) => {
+            event.preventDefault();
+            deferredInstallPrompt = event;
+            setInstallBanner('prompt');
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (!deferredInstallPrompt) {
+                return;
+            }
+
+            deferredInstallPrompt.prompt();
+            await deferredInstallPrompt.userChoice;
+            deferredInstallPrompt = null;
+            setInstallBanner(null);
+        });
+
+        window.addEventListener('appinstalled', () => {
+            deferredInstallPrompt = null;
+            setInstallBanner(null);
         });
     </script>
 </body>

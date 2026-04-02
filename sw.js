@@ -1,12 +1,16 @@
 var GHPATH = '/github-page-pwa-iml';
 var APP_PREFIX = 'iml_';
-var VERSION = 'version_002';
+var VERSION = 'version_003';
 
 var URLS = [    
     `${GHPATH}/`,
     `${GHPATH}/index.html`,
+    `${GHPATH}/manifest.webmanifest`,
     `${GHPATH}/css/styles.css`,
-    `${GHPATH}/img/logo.png`
+    `${GHPATH}/img/logo.png`,
+    `${GHPATH}/img/apple-touch-icon.png`,
+    `${GHPATH}/img/icon-192.png`,
+    `${GHPATH}/img/icon-512.png`
 ]
 
 var CACHE_NAME = APP_PREFIX + VERSION;
