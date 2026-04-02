@@ -10,62 +10,32 @@
 </head>
 <body>
     <div class="language-switcher">
-        <button onclick="changeLanguage('en')" class="lang-btn">English</button>
-        <button onclick="changeLanguage('ar')" class="lang-btn">العربية</button>
+        <button id="lang-toggle" class="lang-btn" type="button" onclick="toggleLanguage()">العربية</button>
     </div>
 
     <div class="container">
         <div class="content-wrapper">
-            <!-- English Content -->
-            <div class="lang-content" data-lang="en">
-                <div class="logo-container">
-                    <img src="/github-page-pwa-iml/img/logo.png" alt="InnerMonkeyLabs Logo" class="logo">
-                </div>
-                <h1>InnerMonkeyLabs Quick Links</h1>
-                <div class="links-grid">
-                    <a href="https://innermonkeylabs.com" class="link-card">
-                        <h2>Main Website</h2>
-                        <p>Visit our main website</p>
-                    </a>
-                    <a href="https://innermonkeylabs.com/blog" class="link-card">
-                        <h2>Blog</h2>
-                        <p>Read our latest articles</p>
-                    </a>
-                    <a href="https://innermonkeylabs.com/contact" class="link-card">
-                        <h2>Contact</h2>
-                        <p>Get in touch with us</p>
-                    </a>
-                    <a href="https://innermonkeylabs.com/services" class="link-card">
-                        <h2>Services</h2>
-                        <p>Explore our services</p>
-                    </a>
-                </div>
+            <div class="logo-container">
+                <img src="/github-page-pwa-iml/img/logo.png" alt="InnerMonkeyLabs Logo" class="logo">
             </div>
-
-            <!-- Arabic Content -->
-            <div class="lang-content" data-lang="ar" dir="rtl">
-                <div class="logo-container">
-                    <img src="/github-page-pwa-iml/img/logo.png" alt="InnerMonkeyLabs Logo" class="logo">
-                </div>
-                <h1>روابط InnerMonkeyLabs السريعة</h1>
-                <div class="links-grid">
-                    <a href="https://innermonkeylabs.com" class="link-card">
-                        <h2>الموقع الرئيسي</h2>
-                        <p>زيارة موقعنا الرئيسي</p>
-                    </a>
-                    <a href="https://innermonkeylabs.com/blog" class="link-card">
-                        <h2>المدونة</h2>
-                        <p>اقرأ أحدث مقالاتنا</p>
-                    </a>
-                    <a href="https://innermonkeylabs.com/contact" class="link-card">
-                        <h2>اتصل بنا</h2>
-                        <p>تواصل معنا</p>
-                    </a>
-                    <a href="https://innermonkeylabs.com/services" class="link-card">
-                        <h2>خدماتنا</h2>
-                        <p>استكشف خدماتنا</p>
-                    </a>
-                </div>
+            <h1 data-i18n="title">InnerMonkeyLabs Quick Links</h1>
+            <div class="links-grid">
+                <a href="https://innermonkeylabs.com/login" class="link-card">
+                    <h2 data-i18n="loginTitle">🧪 Student Login</h2>
+                    <p data-i18n="loginDesc">Log in to access your doses</p>
+                </a>
+                <a href="https://innermonkeylabs.com" class="link-card">
+                    <h2 data-i18n="mainTitle">🏠 Main Website</h2>
+                    <p data-i18n="mainDesc">Visit our main website</p>
+                </a>
+                <a href="https://innermonkeylabs.com/blog" class="link-card">
+                    <h2 data-i18n="blogTitle">📖 Blog</h2>
+                    <p data-i18n="blogDesc">Read our latest articles</p>
+                </a>
+                <a href="https://innermonkeylabs.com/contact" class="link-card">
+                    <h2 data-i18n="contactTitle">📬 Contact</h2>
+                    <p data-i18n="contactDesc">Get in touch with us</p>
+                </a>
             </div>
         </div>
     </div>
@@ -78,21 +48,54 @@
             )
         }
 
+        const translations = {
+            en: {
+                title: 'InnerMonkeyLabs Quick Links',
+                loginTitle: '🧪 Student Login',
+                loginDesc: 'Log in to access your doses',
+                mainTitle: '🏠 Main Website',
+                mainDesc: 'Visit our main website',
+                blogTitle: '📖 Blog',
+                blogDesc: 'Read our latest articles',
+                contactTitle: '📬 Contact',
+                contactDesc: 'Get in touch with us',
+                toggleLabel: 'العربية'
+            },
+            ar: {
+                title: 'روابط InnerMonkeyLabs السريعة',
+                loginTitle: '🧪 تسجيل الدخول',
+                loginDesc: 'سجّل دخولك للوصول إلى جرعاتك',
+                mainTitle: '🏠 الموقع الرئيسي',
+                mainDesc: 'زيارة موقعنا الرئيسي',
+                blogTitle: '📖 المدونة',
+                blogDesc: 'اقرأ أحدث مقالاتنا',
+                contactTitle: '📬 اتصل بنا',
+                contactDesc: 'تواصل معنا',
+                toggleLabel: 'English'
+            }
+        };
+
         function changeLanguage(lang) {
             document.documentElement.lang = lang;
             document.documentElement.dir = lang === 'en' ? 'ltr' : 'rtl';
-            
-            document.querySelectorAll('.lang-content').forEach(el => {
-                el.style.display = 'none';
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                el.textContent = translations[lang][key];
             });
-            
-            document.querySelector(`[data-lang="${lang}"]`).style.display = 'block';
-            
+
+            document.getElementById('lang-toggle').textContent = translations[lang].toggleLabel;
             localStorage.setItem('preferred-language', lang);
         }
 
+        function toggleLanguage() {
+            const currentLang = document.documentElement.lang || 'en';
+            const nextLang = currentLang === 'en' ? 'ar' : 'en';
+            changeLanguage(nextLang);
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
-            const storedLang = localStorage.getItem('preferred-language') || 'en';
+            const storedLang = localStorage.getItem('preferred-language') || 'ar';
             changeLanguage(storedLang);
         });
     </script>
