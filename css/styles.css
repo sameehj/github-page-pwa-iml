@@ -73,6 +73,66 @@ body {
     justify-content: space-between;
 }
 
+.install-instructions[data-lang] {
+    display: none;
+}
+
+html[lang="en"] .install-instructions[data-lang="en"],
+html[lang="ar"] .install-instructions[data-lang="ar"] {
+    display: block;
+}
+
+.install-instructions {
+    max-width: 480px;
+    margin: 0 auto 24px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.install-instructions summary {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    list-style: none;
+    background: rgba(255,255,255,0.08);
+    user-select: none;
+}
+
+.install-instructions summary::-webkit-details-marker {
+    display: none;
+}
+
+.install-instructions details[open] summary {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.install-steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding: 16px;
+    background: rgba(0,0,0,0.15);
+}
+
+.install-platform h3 {
+    margin: 0 0 10px;
+    font-size: 14px;
+}
+
+.install-platform ol {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+[dir="rtl"] .install-platform ol {
+    padding-left: 0;
+    padding-right: 18px;
+}
+
 .install-banner p {
     margin: 0;
     font-size: 0.95rem;
@@ -190,6 +250,12 @@ h1 {
 .links-grid .link-card:nth-child(2) { --animation-order: 2; }
 .links-grid .link-card:nth-child(3) { --animation-order: 3; }
 .links-grid .link-card:nth-child(4) { --animation-order: 4; }
+
+@media (max-width: 480px) {
+    .install-steps {
+        grid-template-columns: 1fr;
+    }
+}
 
 @media (max-width: 600px) {
     .container {
