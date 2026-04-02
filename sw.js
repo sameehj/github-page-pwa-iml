@@ -1,6 +1,6 @@
 var GHPATH = '/github-page-pwa-iml';
 var APP_PREFIX = 'iml_';
-var VERSION = 'version_001';
+var VERSION = 'version_002';
 
 var URLS = [    
     `${GHPATH}/`,
